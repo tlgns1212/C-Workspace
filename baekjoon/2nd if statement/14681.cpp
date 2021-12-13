@@ -3,18 +3,19 @@ int main()
 {
     int x, y;
     scanf("%d %d", &x, &y);
-    if (x > 0)
-    {
-        if (y > 0)
-            printf("1");
-        else
-            printf("4");
-    }
-    else
-    {
-        if (y > 0)
-            printf("2");
-        else
-            printf("3");
-    }
+    // if (x > 0)
+    // {
+    //     if (y > 0)
+    //         printf("1");
+    //     else
+    //         printf("4");
+    // }
+    // else
+    // {
+    //     if (y > 0)
+    //         printf("2");
+    //     else
+    //         printf("3");
+    // }
+    printf("%d", (x * y > 0 ? (x > 0 ? 1 : 3) : (x > 0 ? 4 : 2)));
 }
