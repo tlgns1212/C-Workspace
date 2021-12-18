@@ -1,22 +1,15 @@
 #include <iostream>
 int main()
 {
-    printf("!!!");
-    int A[1000000], N, min, max;
+    int A, N, min = 1000001, max = -1000001;
     scanf("%d", &N);
-    printf("!!!");
     for (int i = 0; i < N; i++)
     {
-        scanf("%d", A[i]);
-    }
-    min = A[0];
-    max = A[0];
-    for (int i = 1; i < N; i++)
-    {
-        if (min > A[i])
-            min = A[i];
-        else if (max < A[i])
-            max = A[i];
+        scanf("%d", &A);
+        if (min > A)
+            min = A;
+        if (max < A)
+            max = A;
     }
     printf("%d %d", min, max);
 }
