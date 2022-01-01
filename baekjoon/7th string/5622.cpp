@@ -12,7 +12,11 @@ int main()
     cin >> alpha;
     for (int i = 0; alpha[i] != '\0'; i++)
     {
-        dial += (((int)alpha[i] - 59 - ((int)alpha[i] == 83 || 86 || 89 || 90 ? 1 : 0)) / 3) + 1;
+        dial += (((int)alpha[i] - 59 - ((((int)alpha[i] == 83) || ((int)alpha[i] == 86) || ((int)alpha[i] == 89) || ((int)alpha[i] == 90)) ? 1 : 0)) / 3) + 1;
+        if ((int)alpha[i] == 90)
+        {
+            dial -= 1;
+        }
     }
     cout << dial;
 }
