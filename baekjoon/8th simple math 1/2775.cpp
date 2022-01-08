@@ -17,18 +17,45 @@ int staircase(int height, int room)
     }
 }
 
+// int main()
+// {
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(NULL);
+//     cout.tie(NULL);
+
+//     int T;
+//     cin >> T;
+//     for (int i = 0; i < T; i++)
+//     {
+//         int k, n;
+//         cin >> k >> n;
+//         cout << staircase(k, n) << '\n';
+//     }
+// }
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int T;
-    cin >> T;
-    for (int i = 0; i < T; i++)
+    int a[15][15] = {0}, i, j, T, k, n;
+    for (i = 0; i < 15; i++)
     {
-        int k, n;
+        a[0][i] = i;
+    }
+    for (i = 1; i < 15; i++)
+    {
+        for (j = 1; j < 15; j++)
+        {
+            a[i][j] = a[i - 1][j] + a[i][j - 1];
+        }
+    }
+
+    cin >> T;
+    for (i = 0; i < T; i++)
+    {
         cin >> k >> n;
-        cout << staircase(k, n) << '\n';
+        cout << a[k][n] << '\n';
     }
 }
