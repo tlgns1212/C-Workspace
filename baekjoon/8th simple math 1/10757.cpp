@@ -4,67 +4,54 @@ using namespace std;
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    // ios_base::sync_with_stdio(false);
+    // cin.tie(NULL);
+    // cout.tie(NULL);
 
-    // string A, B;
-    char A[10001], B[10001], C[10001];
-    int i = 0, j = 0, x, y, carry = 0, k = 0;
-    cin >> A >> B;
-    while (A[i] != '\0')
+    int alen, blen;
+
+    char a[10002] = {0}, b[10002] = {0};
+    int c[10003] = {0}, cnt;
+    scanf("%s %s", a, b);
+    for (int i = 0; a[i] != 0; i++)
     {
-        i++;
+        a[i] -= '0';
+        alen = i;
     }
-    while (B[j] != '\0')
+    for (int i = 0; b[i] != 0; i++)
     {
-        j++;
+        b[i] -= '0';
+        blen = i;
     }
-    i--;
-    j--;
-    while (i >= 0 || j >= 0)
+    for (int i = 0; i <= alen / 2; i++)
     {
-        if (i < 0)
+        char temp = a[i];
+        a[i] = a[alen - i];
+        a[alen - i] = temp;
+    }
+    for (int i = 0; i <= blen / 2; i++)
+    {
+        char temp = b[i];
+        b[i] = b[blen - i];
+        b[blen - i] = temp;
+    }
+    int max = alen > blen ? alen : blen;
+    for (int i = 0; i <= max; i++)
+    {
+        c[i] += a[i] + b[i];
+        if (c[i] > 9)
         {
-            x = 0;
+            c[i] -= 10;
+            c[i + 1] += 1;
+            cnt = 1;
         }
         else
-        {
-            x = A[i] - '0';
-        }
-
-        if (j < 0)
-        {
-            y = 0;
-        }
-        else
-        {
-            y = B[j] - '0';
-        }
-
-        if (x + y + carry > 9)
-        {
-            C[k] = x + y + carry - 10;
-            carry = 1;
-        }
-        else
-        {
-            C[k] = x + y + carry;
-            carry = 0;
-        }
-        k++;
-        i--;
-        j--;
+            cnt = 0;
     }
-    if (carry == 1)
+    max = (cnt == 1) ? max + 1 : max;
+    for (int i = max; i >= 0; i--)
     {
-        C[k] = 1;
-        k++;
+        printf("%d", c[i]);
     }
-    k--;
-    while (k >= 0)
-    {
-        cout << C[k];
-        k--;
-    }
+    return 0;
 }
