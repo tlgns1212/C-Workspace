@@ -24,11 +24,15 @@ int main()
             }
         }
         count = y - x - (2 * count);
-        if (count <= j)
+        if (y - x <= 1)
+        {
+            j = 1;
+        }
+        else if (count <= j)
         {
             j = (j - 1) * 2 + 1;
         }
-        else if (count > j)
+        else
         {
             j = (j - 1) * 2 + 2;
         }
