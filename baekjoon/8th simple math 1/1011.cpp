@@ -7,35 +7,31 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int T, x, y, count = 0, i, j;
-    double half;
+    int T;
     cin >> T;
-    for (i = 0; i < T; i++)
+    while (T--)
     {
+        int x, y, ans;
         cin >> x >> y;
-        half = ((double)y - x) / 2;
-        for (j = 1;; j++)
+        y = y - x;
+        x = 1;
+        ans = 0;
+        while (1)
         {
-            count += j;
-            if (count > half)
+            y = y - x;
+            ans++;
+            if (y <= 0)
             {
-                count -= j;
                 break;
             }
+            y = y - x;
+            ans++;
+            if (y <= 0)
+            {
+                break;
+            }
+            x++;
         }
-        count = y - x - (2 * count);
-        if (y - x <= 1)
-        {
-            j = 1;
-        }
-        else if (count <= j)
-        {
-            j = (j - 1) * 2 + 1;
-        }
-        else
-        {
-            j = (j - 1) * 2 + 2;
-        }
-        cout << j << '\n';
+        cout << ans << '\n';
     }
 }
