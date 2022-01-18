@@ -7,9 +7,9 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int M = 500000;
-    bool arr[1000001];
-    for (int i = 2; i < 1000001; i++)
+    int M = 123456;
+    bool arr[246913];
+    for (int i = 2; i < 246913; i++)
     {
         arr[i] = true;
     }
