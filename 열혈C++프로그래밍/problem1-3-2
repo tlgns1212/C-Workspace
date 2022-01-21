@@ -1,0 +1,12 @@
+int SimpleFunc(int a=10)
+{
+    return a+1;
+}
+이거랑
+int SimpleFunc(void)
+{
+    return 10;
+}
+이거를 같이 구현하면 발생하는 문제점으로는 함수 오버로딩이 있다.
+SimpleFunc를 이용할 때 인수를 받지 않고 이용한다면 인수로 int를 받는 함수도 default가 설정되어 있고
+void인 함수도 사용할 수 있어서 오버로딩 문제가 발생한다.
