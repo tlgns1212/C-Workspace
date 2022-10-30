@@ -1,59 +1,53 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <map>
 #include <cmath>
-
 using namespace std;
-typedef pair<int, int> ii;
-
-bool cmp(pair<int, int> &a, pair<int, int> &b)
-{
-    if (a.second == b.second)
-        return a.first < b.first;
-    return a.second > b.second;
-}
 
 int main()
 {
-    int N, idx = 0, max = 0, temp = 0, before = -4001, aver = 0, diff = 0;
-    bool isFirst = true;
-    map<int, int> m;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    vector<int> v;
+    int vcnt[8001] = {
+        0,
+    };
+    int N, temp, temp2, cnt = -4001, most = -4001, mean = 0;
+    bool notfirst = false;
+
     cin >> N;
-    vector<int> x(N, 0);
+    v.reserve(N);
     for (int i = 0; i < N; i++)
     {
-        cin >> x[i];
-        m[x[i]]++;
+        cin >> temp;
+        v.push_back(temp);
+        vcnt[temp + 4000]++;
+        mean += temp;
     }
-    sort(x.begin(), x.end());
-    vector<pair<int, int>> v(m.begin(), m.end());
-    sort(v.begin(), v.end(), cmp);
-    int i = 0, counts = 0;
-    for (auto it : v)
+    sort(v.begin(), v.end());
+    for (int i = 0; i < 8001; i++)
     {
-        if (i == 0)
+        if (vcnt[i] == cnt)
         {
-            counts = it.second;
-            idx = it.first;
-        }
-        else if (i == 1)
-        {
-            if (counts == it.second)
+            if (notfirst)
             {
-                idx = it.first;
+                most = i - 4000;
+                notfirst = false;
             }
-            break;
         }
-        i++;
+        else if (vcnt[i] > cnt)
+        {
+            cnt = vcnt[i];
+            most = i - 4000;
+            notfirst = true;
+        }
     }
-    diff = abs(x[0] - x[N - 1]);
-    for (int i = 0; i < N; i++)
-    {
-        aver += x[i];
-    }
-    cout << round((float)aver / N) << '\n'
-         << x[(N - 1) / 2] << '\n'
-         << idx << '\n'
-         << diff;
+    cout << ((round((float)mean / N)) == -0 ? 0 : (round((float)mean / N))) << '\n';
+    cout << v[N / 2] << '\n';
+    cout << most << '\n';
+    cout << v.back() - v.front();
+
+    return 0;
 }
