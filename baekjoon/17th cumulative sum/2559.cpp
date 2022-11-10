@@ -18,7 +18,7 @@ int main()
         cin >> temp;
         v[i] = v[i - 1] + temp;
     }
-    for (int i = 1; i + K <= N; i++)
+    for (int i = 0; i + K <= N; i++)
     {
         if (v[i + K] - v[i] > maxNum)
         {
