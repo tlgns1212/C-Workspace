@@ -29,9 +29,9 @@ int main()
 
     for (int i = 0; i < N; i++)
     {
-        for (int j = 0; j < K; j++)
+        for (int j = 0; j < K; j++) // N * K 행렬을 만들어야 함
         {
-            for (int k = 0; k < M; k++)
+            for (int k = 0; k < M; k++) // 각 구역마다 M번 만큼 반복해야 함
             {
                 answer[i][j] += A[i][k] * B[k][j];
             }
