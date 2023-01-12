@@ -24,9 +24,9 @@ int main()
         graph[tempX].push_back(tempY);
         graph[tempY].push_back(tempX);
     }
-    for (int i = 0; i < N; i++)
+    for (int i = 1; i <= N; i++)
     {
-        sort(graph[i].begin(), graph[i].end());
+        sort(graph[i].begin(), graph[i].end(), greater<int>());
     }
 
     q.push(R);
@@ -52,4 +52,5 @@ int main()
     {
         cout << result[i] << '\n';
     }
+    return 0;
 }
