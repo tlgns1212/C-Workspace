@@ -9,6 +9,5 @@ int main()
         cin >> temp;
         answer += (temp * temp);
     }
-    cout << answer % 10;
     return 0;
 }
