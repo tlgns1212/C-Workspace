@@ -7,31 +7,27 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, count = 0;
+    int N, answer = 0;
+    string word;
     cin >> N;
     for (int i = 0; i < N; i++)
     {
-        char alpha[101], before;
-        int eng[26] = {
-            0,
-        };
-        bool isGroup = true;
-        cin >> alpha;
-        before = alpha[0];
-        for (int j = 0; alpha[j] != '\0'; j++)
+        int words[30] = {0};
+        cin >> word;
+        char prevLetter = word[0];
+        words[word[0] - 97]++;
+        for (int i = 1; i < word.size(); i++)
         {
-            if ((before != alpha[j]) && (eng[(int)alpha[j] - 97] != 0))
+            if (words[word[i] - 97] != 0 && prevLetter != word[i])
             {
-                isGroup = false;
+                answer--;
                 break;
             }
-            before = alpha[j];
-            eng[(int)alpha[j] - 97]++;
+            prevLetter = word[i];
+            words[word[i] - 97]++;
         }
-        if (isGroup == true)
-        {
-            count++;
-        }
+        answer++;
     }
-    cout << count;
+    cout << answer;
+    return 0;
 }

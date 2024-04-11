@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 int main()
@@ -7,25 +8,30 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int alpha[26] = {0}, length = 0, max = 0;
-    char word[1000001], answer;
-
+    string word;
+    int letter[27] = {0,};
+    int maxCount = 0, maxIndex = 0;
     cin >> word;
-    for (; word[length] != '\0'; length++)
+
+    for (char c : word)
     {
-        alpha[(int)toupper(word[length]) - 65]++;
-    }
-    for (int i = 0; i < 26; i++)
-    {
-        if (max == alpha[i])
+        if (++letter[toupper(c) - 'A'] > maxCount)
         {
-            answer = '?';
-        }
-        else if (max < alpha[i])
-        {
-            max = alpha[i];
-            answer = (char)(i + 65);
+            maxCount = letter[toupper(c) - 'A'];
+            maxIndex = toupper(c) - 'A';
         }
     }
-    cout << answer;
+
+    int sameTotal = 0;
+    for (int i : letter)
+    {
+        if (i == maxCount)
+            sameTotal++;
+    }
+    if (sameTotal > 1)
+        cout << "?";
+    else
+        cout << char(maxIndex + 'A');
+
+    return 0;
 }

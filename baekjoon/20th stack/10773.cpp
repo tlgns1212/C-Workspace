@@ -8,28 +8,24 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int K, temp, answer = 0;
-    stack<int> si;
-
+    int K, num, total = 0;
+    stack<int> st;
     cin >> K;
     for (int i = 0; i < K; i++)
     {
-        cin >> temp;
-        if (temp == 0)
+        cin >> num;
+        if (num == 0)
         {
-            si.pop();
+            total -= st.top();
+            st.pop();
         }
         else
         {
-            si.push(temp);
+            total += num;
+            st.push(num);
         }
     }
-    while (!si.empty())
-    {
-        answer += si.top();
-        si.pop();
-    }
-    cout << answer;
+    cout << total;
 
     return 0;
 }

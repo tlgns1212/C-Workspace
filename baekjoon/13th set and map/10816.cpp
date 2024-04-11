@@ -11,7 +11,6 @@ int main()
 
     int N, M, temp;
     map<int, int> m;
-
     cin >> N;
     for (int i = 0; i < N; i++)
     {
@@ -24,5 +23,6 @@ int main()
         cin >> temp;
         cout << m[temp] << ' ';
     }
+
     return 0;
 }

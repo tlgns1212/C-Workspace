@@ -12,43 +12,52 @@ int main()
     cout.tie(NULL);
 
     int N, M;
-    int graph[101][101] = {0};
-    bool visited[101][101] = {false};
-    int result[101][101] = {0};
-    int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-    string tempS;
-    queue<pair<int, int>> q;
+    int dirX[] = {1, -1, 0, 0};
+    int dirY[] = {0, 0, -1, 1};
     cin >> N >> M;
+    vector<vector<int>> graph(N);
+    string tempS;
     for (int i = 0; i < N; i++)
     {
+        vector<int> temp(M);
         cin >> tempS;
-        for (int j = 0; j < tempS.size(); j++)
+        for (int j = 0; j < tempS.length(); j++)
         {
-            graph[i][j] = tempS[j] - '0';
+            temp[j] = tempS[j] - 48;
         }
-    }
-    q.push(pair<int, int>(0, 0));
-    result[0][0] = 1;
-    while (!q.empty())
-    {
-        int y = q.front().first, x = q.front().second;
-        q.pop();
-        if (!visited[y][x])
-        {
-            visited[y][x] = true;
-            for (int i = 0; i < 4; i++)
-            {
-                int yy = y + dir[i][0], xx = x + dir[i][1];
-                if ((yy >= 0 && yy < N && xx >= 0 && xx < M) && (graph[yy][xx] == 1) && (!visited[yy][xx]))
-                {
-                    result[yy][xx] = result[y][x] + 1;
-                    q.push(pair<int, int>(yy, xx));
-                }
-            }
-        }
+        graph[i] = temp;
     }
 
-    cout << result[N - 1][M - 1];
+    queue<pair<int, int>> qp;
+    qp.push(make_pair(0, 0));
+    graph[0][0] = -1;
+    while (!qp.empty())
+    {
+        int y = qp.front().first;
+        int x = qp.front().second;
+        qp.pop();
+
+        for (int i = 0; i < 4; i++)
+        {
+            int tempY = y + dirY[i];
+            int tempX = x + dirX[i];
+            if ((tempY >= 0 && tempY < N && tempX >= 0 && tempX < M) && graph[tempY][tempX] == 1)
+            {
+                qp.push(make_pair(tempY, tempX));
+                graph[tempY][tempX] = graph[y][x] - 1;
+            }
+        }
+
+        // for (int i = 0; i < N; i++)
+        // {
+        //     for (int j = 0; j < M; j++)
+        //     {
+        //         cout << graph[i][j];
+        //     }
+        //     cout << '\n';
+        // }
+    }
+    cout << -graph[N - 1][M - 1];
 
     return 0;
 }

@@ -11,45 +11,30 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, M, tempInt;
-    vector<string> names;
-    names.reserve(100001);
-    map<string, int> m;
-    string temp;
+    int N, M, tempI;
+    string name;
     cin >> N >> M;
+    vector<string> v(N + 1);
+    map<string, int> m;
     for (int i = 1; i <= N; i++)
     {
-        cin >> temp;
-        // if (islower(temp[0]))
-        //     temp[0] = toupper(temp[0]);
-        // if (isupper(temp[temp.size() - 1]))
-        //     temp[temp.size() - 1] = tolower(temp[temp.size() - 1]);
-        m[temp] = i;
-        names.push_back(temp);
+        cin >> name;
+        m[name] = i;
+        v[i] = name;
     }
     for (int i = 0; i < M; i++)
     {
-        // char findPoke[21];
-        // cin >> findPoke;
-        // if (isdigit(findPoke[0]))
-        // {
-        //     tempInt = atoi(findPoke);
-        //     cout << names[tempInt - 1] << endl;
-        // }
-        // else
-        // {
-        //     cout << m[temp] << endl;
-        // }
-        cin >> temp;
-        if (isdigit(temp[0]))
+        cin >> name;
+        if (name[0] - 57 <= 0)
         {
-            tempInt = stoi(temp);
-            cout << names[tempInt - 1] << '\n';
+            int num = stoi(name);
+            cout << v[num] << '\n';
         }
         else
         {
-            cout << m[temp] << '\n';
+            cout << m[name] << '\n';
         }
     }
+
     return 0;
 }

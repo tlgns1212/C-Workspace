@@ -5,33 +5,35 @@ using namespace std;
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
     int N, K;
-    queue<pair<int, int>> q;
-    int spot[100001] = {0};
-    bool visited[100001] = {false};
-    int result[100001] = {0};
+    queue<pair<int, int>> qp;
+    int pos[100001] = {
+        0,
+    };
     cin >> N >> K;
 
-    q.push(pair<int, int>(N, 0));
-    while (!q.empty())
+    qp.push(make_pair(N, 0));
+    while (!qp.empty())
     {
-        int now = q.front().first, cnt = q.front().second;
-        q.pop();
-        if (!visited[now] && (now >= 0 && now < 100001))
+        int now = qp.front().first;
+        int cnt = qp.front().second;
+        qp.pop();
+
+        if (now >= 0 && now <= 100000 && pos[now] == 0)
         {
-            visited[now] = true;
-            if (result[now] == 0)
-            {
-                result[now] = cnt;
-            }
-            cnt++;
-            q.push(pair<int, int>(now - 1, cnt));
-            q.push(pair<int, int>(now + 1, cnt));
-            q.push(pair<int, int>(now * 2, cnt));
+            pos[now] = cnt;
+            if (now == K)
+                break;
+            qp.push(make_pair(now - 1, cnt + 1));
+            qp.push(make_pair(now + 1, cnt + 1));
+            qp.push(make_pair(now * 2, cnt + 1));
         }
     }
-
-    cout << result[K];
+    cout << pos[K];
 
     return 0;
 }

@@ -2,41 +2,42 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
-
-#define fastio                        \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL);
 
 int main()
 {
-    fastio;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
     int N, M;
-    string temp;
+    string name;
     map<string, int> m;
-    vector<string> s;
-    s.reserve(N);
+    vector<string> v;
+
     cin >> N >> M;
     for (int i = 0; i < N; i++)
     {
-        cin >> temp;
-        m[temp]++;
+        cin >> name;
+        m[name]++;
     }
     for (int i = 0; i < M; i++)
     {
-        cin >> temp;
-        m[temp]++;
+        cin >> name;
+        m[name]++;
+        if (m[name] == 2)
+        {
+            v.push_back(name);
+        }
     }
-    for (auto mm : m)
+    sort(v.begin(), v.end());
+
+    cout << v.size() << '\n';
+    for (string s : v)
     {
-        if (mm.second > 1)
-            s.push_back(mm.first);
+        cout << s << '\n';
     }
-    cout << s.size() << '\n';
-    for (auto ss : s)
-    {
-        cout << ss << '\n';
-    }
+
     return 0;
 }

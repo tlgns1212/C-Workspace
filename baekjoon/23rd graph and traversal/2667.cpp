@@ -12,59 +12,63 @@ int main()
     cout.tie(NULL);
 
     int N;
-    int dir[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-    int graph[26][26] = {0};
-    bool visited[26][26] = {false};
-    vector<int> result;
-    int cnt = 0;
-    queue<pair<int, int>> q;
-    string temp;
+    vector<vector<int>> graph;
+    bool visited[26][26] = {
+        false,
+    };
+    vector<int> answer;
+    int dir[2][4] = {{0, 0, 1, -1}, {1, -1, 0, 0}};
+    string tempS;
     cin >> N;
-
     for (int i = 0; i < N; i++)
     {
-        cin >> temp;
-        for (int j = 0; j < temp.size(); j++)
+        vector<int> tempV(N);
+        cin >> tempS;
+        for (int j = 0; j < tempS.size(); j++)
         {
-            graph[i][j] = temp[j] - '0';
+            tempV[j] = tempS[j] - 48;
         }
+        graph.push_back(tempV);
     }
-
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            if (graph[i][j] == 1 && !visited[i][j])
+            int isNewApartment = 0;
+            queue<pair<int, int>> qp;
+            qp.push(make_pair(i, j));
+            while (!qp.empty())
             {
-                cnt = 0;
-                q.push(pair<int, int>(i, j));
-                while (!q.empty())
+                int y = qp.front().first;
+                int x = qp.front().second;
+                qp.pop();
+                if (!visited[y][x] && graph[y][x] == 1)
                 {
-                    int tempOne = q.front().first;
-                    int tempTwo = q.front().second;
-                    q.pop();
-                    if (!visited[tempOne][tempTwo] && graph[tempOne][tempTwo] == 1)
+                    isNewApartment++;
+                    visited[y][x] = true;
+                    for (int i = 0; i < 4; i++)
                     {
-                        cnt++;
-                        visited[tempOne][tempTwo] = true;
-                        for (int k = 0; k < 4; k++)
+                        int xx = x + dir[0][i];
+                        int yy = y + dir[1][i];
+                        if (xx >= 0 && xx < N && yy >= 0 && yy < N)
                         {
-                            int tempI = tempOne + dir[k][0], tempJ = tempTwo + dir[k][1];
-                            if (tempI >= 0 && tempI < N && tempJ >= 0 && tempJ < N)
-                            {
-                                q.push(pair<int, int>(tempI, tempJ));
-                            }
+                            qp.push(make_pair(yy, xx));
                         }
                     }
                 }
-                result.push_back(cnt);
+            }
+            if (isNewApartment > 0)
+            {
+                answer.push_back(isNewApartment);
             }
         }
     }
-    cout << result.size() << '\n';
-    sort(result.begin(), result.end());
-    for (int i = 0; i < result.size(); i++)
+    cout << answer.size() << '\n';
+    sort(answer.begin(), answer.end());
+    for (int i = 0; i < answer.size(); i++)
     {
-        cout << result[i] << '\n';
+        cout << answer[i] << '\n';
     }
+
+    return 0;
 }

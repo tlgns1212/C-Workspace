@@ -1,11 +1,12 @@
 #include <iostream>
 #include <queue>
-#include <algorithm>
 using namespace std;
 
-int tomatoes[1001][1001] = {0};
-bool visited[1001][1001] = {false};
-int result[1001][1001];
+int M, N, answer, colored, walls;
+int tomatoes[1001][1001];
+int visited[1001][1001];
+int dir[][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+queue<pair<int, int>> qp;
 
 int main()
 {
@@ -13,64 +14,47 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int M, N, cnt = 0, temp;
-    int dirX[4] = {-1, 1, 0, 0};
-    int dirY[4] = {0, 0, -1, 1};
-    bool isAnswerPrinted = false;
-    queue<pair<int, int>> q;
-
     cin >> M >> N;
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < M; j++)
         {
-            cin >> temp;
-            if (temp == 0)
+            cin >> tomatoes[i][j];
+            if (tomatoes[i][j] == 1)
             {
-                cnt++; // 안 익은 토마토 몇개 있는지 세기
+                qp.push({i, j});
+                colored++;
             }
-            if (temp == 1)
-            {
-                q.push(pair<int, int>(i, j)); // 익은 토마토 위치 queue에 저장
-                result[i][j] = 0;             // 각자 토마토 날짜 저장
-            }
-            tomatoes[i][j] = temp;
+            else if (tomatoes[i][j] == -1)
+                walls++;
         }
     }
-    while (!q.empty())
+
+    while (!qp.empty())
     {
-        int nowX = q.front().first, nowY = q.front().second;
-        q.pop();
-        if (!visited[nowX][nowY] && tomatoes[nowX][nowY] >= 0) // 토마토에 처음 들리고 토마토가 있으면
+        pair<int, int> pos = qp.front();
+        int y = pos.first, x = pos.second;
+        qp.pop();
+
+        for (int i = 0; i < 4; i++)
         {
-            visited[nowX][nowY] = true;
-            if (tomatoes[nowX][nowY] == 0) // 토마토가 안 익은 토마토일때 세기
+            int xx = x + dir[i][0];
+            int yy = y + dir[i][1];
+
+            if (xx >= 0 && xx < M && yy >= 0 && yy < N && visited[yy][xx] == 0 && tomatoes[yy][xx] == 0)
             {
-                cnt--;
-            }
-            if (cnt == 0) // 모든 토마토가 익었으면 출력
-            {
-                isAnswerPrinted = true;
-                cout << result[nowX][nowY];
-                break;
-            }
-            for (int i = 0; i < 4; i++) // 상하좌우로
-            {
-                int newX = nowX + dirX[i], newY = nowY + dirY[i];
-                if ((newX >= 0 && newX < N && newY >= 0 && newY < M) && tomatoes[newX][newY] == 0) // 박스를 벗어나지 않고 다음 토마토가 안 익은 토마토면
-                {
-                    q.push(pair<int, int>(newX, newY));
-                    if (result[newX][newY] == 0)
-                    {
-                        result[newX][newY] = result[nowX][nowY] + 1; // 다음 토마토는 현재 토마토에 날짜 하나 더함
-                    }
-                }
+                qp.push({yy, xx});
+                visited[yy][xx] = visited[y][x] + 1;
+                answer = max(answer, visited[yy][xx]);
+                colored++;
             }
         }
     }
-    if (!isAnswerPrinted) // 모든 토마토가 익지 않았을때
-    {
+
+    if (M * N - walls == colored)
+        cout << answer;
+    else
         cout << -1;
-    }
+
     return 0;
 }

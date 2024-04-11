@@ -1,65 +1,33 @@
 #include <iostream>
 using namespace std;
 
-// int main()
-// {
-//     ios_base::sync_with_stdio(false);
-//     cin.tie(NULL);
-//     cout.tie(NULL);
-
-//     int M, N;
-//     cin >> M >> N;
-//     if (M == 1)
-//     {
-//         M = 2;
-//     }
-//     for (int i = M; i <= N; i++)
-//     {
-//         int temp = 0;
-//         for (int j = 2; j * j <= i; j++)
-//         {
-//             if (i % j == 0)
-//             {
-//                 temp = 1;
-//             }
-//         }
-//         if (temp == 0)
-//         {
-//             cout << i << '\n';
-//         }
-//     }
-// }
-
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int M, N;
+    int N, M;
     bool arr[1000001];
-    cin >> M >> N;
-    for (int i = 2; i < 1000001; i++)
-    {
-        arr[i] = true;
-    }
-    arr[0] = arr[1] == false;
-
-    for (int i = 2; (i * i) <= N; i++)
+    cin >> N >> M;
+    arr[0] = arr[1] = true;
+    for (int i = 2; i * i <= M; i++)
     {
         if (arr[i])
+            continue;
+        else
         {
-            for (int j = i * i; j <= N; j += i)
+            for (int j = 2; j * i <= M; j++)
             {
-                arr[j] = false;
+                arr[i * j] = true;
             }
         }
     }
-    for (int i = M; i <= N; i++)
+    for (int i = N; i <= M; i++)
     {
-        if (arr[i])
-        {
+        if (!arr[i])
             cout << i << '\n';
-        }
     }
+
+    return 0;
 }

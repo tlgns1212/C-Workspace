@@ -9,28 +9,29 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, start, end, time, count = 0;
-    vector<pair<int, int>> table;
-
+    int N, start, end, cnt = 0, time;
     cin >> N;
+    vector<pair<int, int>> vp(N);
+    vector<int> dp(N + 1);
 
     for (int i = 0; i < N; i++)
     {
         cin >> start >> end;
-        table.push_back(pair<int, int>(end, start)); // 끝나는 시간부터 넣어서, 나중에 정렬할 때 끝나는 시간 순으로 정렬하도록
+        vp[i] = make_pair(end, start);
     }
-    sort(table.begin(), table.end());
-    time = table[0].first;
-    count++;
-    for (int i = 1; i <= N; i++)
+    sort(vp.begin(), vp.end());
+
+    time = vp[0].first;
+    cnt++;
+    for (int i = 1; i < N; i++)
     {
-        if (table[i].second >= time) // 다음 시작시간이 끝나는 시간과 같거나 더 크면
+        if (vp[i].second >= time)
         {
-            time = table[i].first;
-            count++;
+            time = vp[i].first;
+            cnt++;
         }
     }
-    cout << count;
+    cout << cnt;
 
     return 0;
 }

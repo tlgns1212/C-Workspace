@@ -1,23 +1,34 @@
 #include <iostream>
 using namespace std;
 
+struct people
+{
+    int weight;
+    int height;
+};
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, x[51][2], rank = 1;
+    int N, rank = 1;
+    people P[50];
+
     cin >> N;
     for (int i = 0; i < N; i++)
     {
-        cin >> x[i][0] >> x[i][1];
+        int w, h;
+        cin >> w >> h;
+        P[i].weight = w;
+        P[i].height = h;
     }
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            if (x[i][0] < x[j][0] && x[i][1] < x[j][1])
+            if (P[i].weight < P[j].weight && P[i].height < P[j].height)
                 rank++;
         }
         cout << rank << ' ';
