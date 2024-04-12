@@ -3,9 +3,11 @@
 #include <tuple>
 using namespace std;
 
-int tomatoes[101][101][101];
-int result[101][101][101];
-bool visited[101][101][101] = {false};
+int N, M, H, count, answer, walls;
+int tom[101][101][101];
+int visited[101][101][101];
+int dir[][3] = {{-1, 0, 0}, {1, 0, 0}, {0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}};
+queue<tuple<int, int, int>> qt;
 
 int main()
 {
@@ -13,70 +15,65 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int M, N, H, temp, cnt = 0;
-    int dirX[6] = {0, 0, 0, 0, -1, 1}, dirY[6] = {0, 0, 1, -1, 0, 0}, dirZ[6] = {-1, 1, 0, 0, 0, 0};
-    bool isAnswerPrinted = false;
-    queue<tuple<int, int, int>> q;
-
     cin >> M >> N >> H;
-
     for (int i = 0; i < H; i++)
     {
         for (int j = 0; j < N; j++)
         {
             for (int k = 0; k < M; k++)
             {
-                cin >> temp;
-                if (temp == 0)
+                cin >> tom[i][j][k];
+                if (tom[i][j][k] == 1)
                 {
-                    cnt++;
+                    count++;
+                    qt.push({i, j, k});
                 }
-                if (temp == 1)
-                {
-                    result[i][j][k] = 0;
-                    q.push(make_tuple(i, j, k));
-                }
-                tomatoes[i][j][k] = temp;
+                else if (tom[i][j][k] == -1)
+                    walls++;
             }
         }
     }
 
-    while (!q.empty())
+    while (!qt.empty())
     {
-        int nowZ = get<0>(q.front()), nowX = get<1>(q.front()), nowY = get<2>(q.front());
-        q.pop();
-        if (!visited[nowZ][nowX][nowY])
+        tuple<int, int, int> pos = qt.front();
+        qt.pop();
+        int z = get<0>(pos);
+        int y = get<1>(pos);
+        int x = get<2>(pos);
+
+        for (int i = 0; i < 6; i++)
         {
-            if (tomatoes[nowZ][nowX][nowY] == 0)
+            int zz = z + dir[i][0];
+            int yy = y + dir[i][1];
+            int xx = x + dir[i][2];
+
+            if (zz >= H || zz < 0 || yy >= N || yy < 0 || xx >= M || xx < 0)
+                continue;
+
+            if (visited[zz][yy][xx] == 0 && tom[zz][yy][xx] == 0)
             {
-                cnt--;
-            }
-            if (cnt == 0)
-            {
-                isAnswerPrinted = true;
-                cout << result[nowZ][nowX][nowY];
-                break;
-            }
-            visited[nowZ][nowX][nowY] = true;
-            for (int i = 0; i < 6; i++)
-            {
-                int newZ = nowZ + dirZ[i], newX = nowX + dirX[i], newY = nowY + dirY[i];
-                if (((newX >= 0 && newX < N) && (newY >= 0 && newY < M) && (newZ >= 0 && newZ < H)) && tomatoes[newZ][newX][newY] == 0)
-                {
-                    q.push(make_tuple(newZ, newX, newY));
-                    if (result[newZ][newX][newY] == 0)
-                    {
-                        result[newZ][newX][newY] = result[nowZ][nowX][nowY] + 1;
-                    }
-                }
+                qt.push({zz, yy, xx});
+                visited[zz][yy][xx] = visited[z][y][x] + 1;
+                answer = max(answer, visited[zz][yy][xx]);
+                count++;
             }
         }
     }
-
-    if (!isAnswerPrinted)
-    {
-        cout << -1;
-    }
+    if (M * N * H - walls == count)
+        cout << answer;
+    else
+        cout << "-1";
 
     return 0;
 }
+
+// 5 3 2
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 1 0 0
+// 0 0 0 0 0
+
+// 4

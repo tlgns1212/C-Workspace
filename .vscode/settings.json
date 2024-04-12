@@ -4,6 +4,17 @@
     "vector": "cpp",
     "cmath": "cpp",
     "ostream": "cpp",
-    "map": "cpp"
+    "map": "cpp",
+    "iosfwd": "cpp",
+    "random": "cpp",
+    "limits": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "initializer_list": "cpp",
+    "utility": "cpp",
+    "tuple": "cpp",
+    "new": "cpp"
   }
 }

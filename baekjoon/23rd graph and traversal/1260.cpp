@@ -1,26 +1,45 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <algorithm>
+#include <queue>
 using namespace std;
 
-vector<int> graph[1001];
-bool visitedDFS[1001] = {false};
-bool visitedBFS[1001] = {false};
+int N, M, V;
+vector<int> graph[1002];
+bool dfsVisited[1002];
+bool bfsVisited[1002];
 
-void dfs(int V)
+void DFS(int sNod)
 {
-    if (visitedDFS[V])
-    {
+    if (dfsVisited[sNod])
         return;
-    }
-    visitedDFS[V] = true;
-    cout << V << ' ';
-    for (int i = 0; i < graph[V].size(); i++)
+
+    dfsVisited[sNod] = true;
+    cout << sNod << ' ';
+    for (int node : graph[sNod])
     {
-        dfs(graph[V][i]);
+        DFS(node);
     }
-    return;
+}
+
+void BFS(int sNod)
+{
+    queue<int> q;
+    q.push(sNod);
+    while (!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        if (bfsVisited[node])
+            continue;
+        bfsVisited[node] = true;
+        cout << node << ' ';
+
+        for (int value : graph[node])
+        {
+            q.push(value);
+        }
+    }
 }
 
 int main()
@@ -29,36 +48,21 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, M, V, tempOne, tempTwo;
-    queue<int> q;
+    int x1, x2;
+
     cin >> N >> M >> V;
     for (int i = 0; i < M; i++)
     {
-        cin >> tempOne >> tempTwo;
-        graph[tempOne].push_back(tempTwo);
-        graph[tempTwo].push_back(tempOne);
+        cin >> x1 >> x2;
+        graph[x1].push_back(x2);
+        graph[x2].push_back(x1);
     }
-    for (int i = 1; i <= N; i++)
+    for (int i = 0; i <= N; i++)
     {
         sort(graph[i].begin(), graph[i].end());
     }
 
-    dfs(V);
+    DFS(V);
     cout << '\n';
-
-    q.push(V);
-    while (!q.empty())
-    {
-        int now = q.front();
-        q.pop();
-        if (!visitedBFS[now])
-        {
-            visitedBFS[now] = true;
-            cout << now << ' ';
-            for (int i = 0; i < graph[now].size(); i++)
-            {
-                q.push(graph[now][i]);
-            }
-        }
-    }
+    BFS(V);
 }

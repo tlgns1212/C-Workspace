@@ -4,27 +4,25 @@ using namespace std;
 
 int main()
 {
-    int n;
+    int N;
+    int num = 665;
     int count = 0;
-    int title = 665;
-    string s;
 
-    cin >> n;
-
-    while (++title)
+    cin >> N;
+    while (1)
     {
-        s = to_string(title);
+        string temp = to_string(num);
 
-        if (s.find("666") != -1)
+        if (temp.find("666") != -1)
         {
-            ++count;
+            count++;
         }
-
-        if (count == n)
+        if (count == N)
         {
-            cout << title << endl;
+            cout << temp;
             break;
         }
+        num++;
     }
 
     return 0;

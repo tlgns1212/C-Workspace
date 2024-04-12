@@ -2,29 +2,31 @@
 #include <vector>
 using namespace std;
 
+int n, k;
+vector<int> coins;
+int value[10001];
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, k, temp;
-    cin >> N >> k;
-    vector<int> coins(N);
-    vector<int> dp(k + 1);
-    for (int i = 0; i < N; i++)
+    cin >> n >> k;
+    for (int i = 0; i < n; i++)
     {
-        cin >> coins[i];
+        int temp;
+        cin >> temp;
+        coins.push_back(temp);
     }
-    dp[0] = 1;
-    for (int i = 0; i < N; i++)
+    value[0] = 1;
+    for (int coin : coins)
     {
-        for (int j = coins[i]; j <= k; j++)
+        for (int i = coin; i <= k; i++)
         {
-            dp[j] += dp[j - coins[i]];
+            value[i] += value[i - coin];
         }
     }
-    cout << dp[k];
-
+    cout << value[k];
     return 0;
 }

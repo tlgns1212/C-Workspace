@@ -1,7 +1,11 @@
 #include <iostream>
-#include <map>
 #include <queue>
+#include <map>
 using namespace std;
+
+int N, M, visited[101];
+map<int, int> ladder, snake;
+queue<int> q;
 
 int main()
 {
@@ -9,53 +13,76 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    map<int, int> m;
-    queue<int> q;
-    bool visited[107] = {false};
-    bool board[107] = {false};
-    int result[107] = {0};
-    int N, M, tempX, tempY;
-
     cin >> N >> M;
-    for (int i = 0; i < N + M; i++)
+    int temp1, temp2;
+    for (int i = 0; i < N; i++)
     {
-        cin >> tempX >> tempY;
-        m[tempX] = tempY; // 사다리 or 뱀의 후경로 저장
-        board[tempX] = true;
+        cin >> temp1 >> temp2;
+        ladder[temp1] = temp2;
+    }
+    for (int i = 0; i < M; i++)
+    {
+        cin >> temp1 >> temp2;
+        snake[temp1] = temp2;
     }
 
     q.push(1);
     while (!q.empty())
     {
-        int nowX = q.front();
+        int x = q.front();
         q.pop();
-        // if (nowX == 100)
-        // {
-        //     break;
-        // }
-        if (!visited[nowX])
+
+        if (x == 100)
         {
-            visited[nowX] = true;
-            if (board[nowX]) // 해당 위치에 사다리 or 뱀이 있을 경우
+            break;
+        }
+        for (int i = 1; i <= 6; i++)
+        {
+            int xx = x + i;
+            if (xx <= 100)
             {
-                q.push(m[nowX]);
-                result[m[nowX]] = result[nowX];
-            }
-            else
-            {
-                for (int i = 1; i <= 6; i++)
+                if (ladder.find(xx) != ladder.end())
                 {
-                    if ((result[nowX + i] == 0 || result[nowX + i] > result[nowX] + 1) && nowX <= 100)
+                    if (visited[ladder[xx]] == 0)
                     {
-                        q.push(nowX + i);
-                        result[nowX + i] = result[nowX] + 1;
+                        visited[ladder[xx]] = visited[x] + 1;
+                        q.push(ladder[xx]);
+                    }
+                }
+                else if (snake.find(xx) != snake.end())
+                {
+                    if (visited[snake[xx]] == 0)
+                    {
+                        visited[snake[xx]] = visited[x] + 1;
+                        q.push(snake[xx]);
+                    }
+                }
+                else
+                {
+                    if (visited[xx] == 0)
+                    {
+                        visited[xx] = visited[x] + 1;
+                        q.push(xx);
                     }
                 }
             }
         }
     }
-
-    cout << result[100];
+    cout << visited[100];
 
     return 0;
 }
+
+// 3 7
+// 32 62
+// 42 68
+// 12 98
+// 95 13
+// 97 25
+// 93 37
+// 79 27
+// 75 19
+// 49 47
+// 67 17
+
+// 3

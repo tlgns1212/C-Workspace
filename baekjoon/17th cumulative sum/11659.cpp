@@ -8,20 +8,21 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, M, i, j, temp, answer;
-
+    int N, M;
     cin >> N >> M;
     vector<int> v(N + 1);
     v[0] = 0;
-    for (int l = 1; l <= N; l++)
+    for (int i = 1; i <= N; i++)
     {
+        int temp;
         cin >> temp;
-        v[l] = v[l - 1] + temp;
+        v[i] = v[i - 1] + temp;
     }
-    for (int l = 0; l < M; l++)
+    for (int i = 0; i < M; i++)
     {
-        cin >> i >> j;
-        cout << v[j] - v[i - 1] << '\n';
+        int start, end;
+        cin >> start >> end;
+        cout << v[end] - v[start - 1] << '\n';
     }
 
     return 0;

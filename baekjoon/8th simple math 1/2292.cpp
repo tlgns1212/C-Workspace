@@ -7,14 +7,20 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int N, count = 1, i = 0;
+    int N;
     cin >> N;
+
+    int num = 1;
+    int index = 1;
     while (1)
     {
-        count += (6 * i);
-        if (count >= N)
+        if (num >= N)
+        {
             break;
-        i++;
+        }
+        num += index++ * 6;
     }
-    cout << i + 1;
+    cout << index;
+
+    return 0;
 }

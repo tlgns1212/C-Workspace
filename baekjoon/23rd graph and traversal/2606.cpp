@@ -9,33 +9,34 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    vector<int> computers[101];
-    bool visited[101] = {false};
-    queue<int> q;
-    int computer, link, linkOne, linkTwo, answer = 0;
-
-    cin >> computer >> link;
-    for (int i = 0; i < link; i++)
+    int comNum, N, temp1, temp2, answer = 0;
+    cin >> comNum >> N;
+    vector<int> graph[101];
+    bool visited[101];
+    for (int i = 0; i < N; i++)
     {
-        cin >> linkOne >> linkTwo;
-        computers[linkOne].push_back(linkTwo);
-        computers[linkTwo].push_back(linkOne);
+        cin >> temp1 >> temp2;
+        graph[temp1].push_back(temp2);
+        graph[temp2].push_back(temp1);
     }
 
+    queue<int> q;
     q.push(1);
     while (!q.empty())
     {
-        int now = q.front();
+        int nowNum = q.front();
         q.pop();
-        if (!visited[now])
+        if (!visited[nowNum])
         {
-            visited[now] = true;
+            visited[nowNum] = true;
             answer++;
-            for (int i = 0; i < computers[now].size(); i++)
+
+            for (int i = 0; i < graph[nowNum].size(); i++)
             {
-                q.push(computers[now][i]);
+                q.push(graph[nowNum][i]);
             }
         }
     }
-    cout << answer - 1; // 1번 컴퓨터는 제외!!!!
+    cout << answer - 1;
+    return 0;
 }
