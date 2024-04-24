@@ -4,13 +4,15 @@ using namespace std;
 int solution(int n)
 {
     int ans = 0;
-    while (n != 0)
-    {
-        if (((double)n / 2) != n / 2)
-        {
+    
+    while(n > 0){
+        if(n % 2 == 0){
+            n /= 2;
+        }
+        else{
+            n -= 1;
             ans++;
         }
-        n /= 2;
     }
 
     return ans;
