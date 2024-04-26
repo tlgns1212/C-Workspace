@@ -1,42 +1,44 @@
 #include <string>
 #include <vector>
 #include <queue>
-// #include <iostream>
+#include <iostream>
 
 using namespace std;
 
-vector<int> solution(vector<int> prices)
-{
+vector<int> solution(vector<int> prices) {
     vector<int> answer(prices.size(), 0);
-    queue<pair<int, int>> q;
-    int size, temp, idx;
-
-    for (int i = 0; i < prices.size(); i++)
-    {
-        q.push(pair<int, int>(prices[i], 0));
-        size = q.size();
-        for (int j = 0; j < size; j++)
-        {
-            temp = q.front().first;
-            idx = q.front().second;
-            q.pop();
-            // cout << i << ' ' << j << ' ' << temp << ' ' << idx << '\n';
-            if (temp > prices[i])
-            {
-                // cout << i << ' ' << j << ' ' << temp << ' ' << idx << "hahahahaha\n";
-                answer[i - idx] = idx;
+    priority_queue<pair<int,int>> pq;
+    for(int i = 0; i < prices.size(); i++){
+        int nowSize = prices[i];
+        while(!pq.empty()){
+            int prevSize = pq.top().first;
+            int prevIndex = pq.top().second;
+            
+            // cout << "NowSize = " << nowSize << " , prevSize = " << prevSize << '\n';
+            if(nowSize < prevSize){
+                pq.pop();
+                answer[prevIndex] = i - prevIndex;
             }
-            else
-                q.push(pair<int, int>(temp, idx + 1));
+            else{
+                break;
+            }
         }
+        pq.push({nowSize, i});
     }
-    while (!q.empty())
-    {
-        temp = q.front().first;
-        idx = q.front().second;
-        q.pop();
-        answer[prices.size() - idx] = idx - 1;
+    
+    while(!pq.empty()){
+        int size = pq.top().first;
+        int index = pq.top().second;
+        pq.pop();
+        
+        answer[index] = prices.size() - 1 - index;
     }
-
+    
+    // while(!pq.empty()){
+    //     cout << pq.top().first << ' ' << pq.top().second << '\n';
+    //     pq.pop();
+    // }
+    
+    
     return answer;
 }
