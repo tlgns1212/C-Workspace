@@ -1,24 +1,27 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
-int solution(vector<int> citations)
-{
+int solution(vector<int> citations) {
     int answer = 0;
-    sort(citations.begin(), citations.end(), greater<int>());
-    for (int i = 0; i < citations.size(); i++)
-    {
-        if (citations[i] >= i + 1)
-        {
-            answer++;
+    for(int i = citations.size(); i >= 0; i--){
+        int bigger = 0, smaller = 0;
+        for(int j = 0; j < citations.size(); j++){
+            if(smaller > i){
+                break;
+            }
+            if(citations[j] >= i){
+                bigger++;
+            }
+            if(citations[j] <= i){
+                smaller++;
+            }
         }
-        else
-        {
+        if(bigger >= i && smaller <= i){
+            answer = i;
             break;
         }
     }
-
     return answer;
 }
