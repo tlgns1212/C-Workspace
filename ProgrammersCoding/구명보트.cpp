@@ -4,24 +4,24 @@
 
 using namespace std;
 
-int solution(vector<int> people, int limit)
-{
-    int answer = 0, current = 0, idxF = 0, idxB = people.size() - 1;
-
-    sort(people.begin(), people.end());
-
-    while (idxF <= idxB)
-    {
-        if (people[idxF] + people[idxB] <= limit)
-        {
-            idxF++;
-            idxB--;
+int solution(vector<int> people, int limit) {
+    int answer = 0;
+    int backIdx = people.size() - 1;
+    sort(people.begin(), people.end(), greater());
+    
+    for(int i = 0; i < people.size(); i++){
+        if(i > backIdx){
+            break;
         }
-        else
-        {
-            idxB--;
+        
+        if(people[i] + people[backIdx] <= limit){
+            answer++;
+            backIdx--;
         }
-        answer++;
+        else{
+            answer++;
+        }
     }
+    
     return answer;
 }
